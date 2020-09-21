@@ -1,0 +1,38 @@
+
+    
+
+body{
+    
+    /* background-image: url("../images/space_bg.jpg"); */
+    background-color: black;
+    background-image: url("../images/orb.gif");
+    background-size:auto;
+    background-repeat: no-repeat;
+    background-position: center; 
+    
+    
+    height: 100vh;
+    padding:0;
+    margin:0;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.center-name {
+    color: #C0C000;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    font-weight: 700;
+  }
+
+  .center-role {
+    color: #C0C080;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    font-weight: 400;
+  }
