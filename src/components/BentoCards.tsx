@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { Terminal, Briefcase, Car, Plane, Gamepad2, ChefHat, TrendingUp } from 'lucide-react';
+import { Terminal, Briefcase, Car, Plane, Gamepad2, ChefHat, TrendingUp, Brain } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const HeroCard = () => (
@@ -105,5 +105,25 @@ export const CookingCard = () => (
     <ChefHat size={28} color="var(--accent-warm)" style={{ marginBottom: '1rem' }} />
     <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Culinary Arts</h3>
     <p style={{ color: 'var(--text-secondary)' }}>Experimenting with flavors, perfecting techniques, and cooking as a form of meditation. Recipes coming soon.</p>
+  </motion.div>
+);
+
+export const BrainCard = () => (
+  <motion.div
+    className="glass-card col-span-2 row-span-2"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    style={{ background: 'linear-gradient(145deg, rgba(20,20,25,0.8), rgba(176,0,255,0.05))', position: 'relative', overflow: 'hidden' }}
+  >
+    <div style={{ position: 'absolute', top: '0', right: '0', width: '200px', height: '200px', background: 'var(--accent-purple)', filter: 'blur(100px)', opacity: 0.1 }} />
+    <Brain size={32} color="var(--accent-purple)" style={{ marginBottom: '1rem' }} />
+    <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>The Brain</h2>
+    <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+      My digital garden. A growing collection of raw thoughts, engineering lessons, and interactive notes.
+    </p>
+    <Link to="/brain" style={{ display: 'inline-block', padding: '0.8rem 1.5rem', background: 'rgba(176,0,255,0.1)', color: 'var(--accent-purple)', borderRadius: '100px', fontWeight: 600, fontSize: '0.9rem' }}>
+      Enter The Brain
+    </Link>
   </motion.div>
 );

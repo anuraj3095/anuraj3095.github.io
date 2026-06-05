@@ -1,11 +1,11 @@
-
 import { 
   HeroCard, 
   ProfessionalCard, 
   FinanceCard, 
   MachinesCard, 
   GamesCard, 
-  CookingCard 
+  CookingCard, 
+  BrainCard 
 } from '../components/BentoCards';
 
 const Home = () => {
@@ -13,6 +13,7 @@ const Home = () => {
     <div className="bento-container">
       <HeroCard />
       <ProfessionalCard />
+      <BrainCard />
       <FinanceCard />
       <MachinesCard />
       <GamesCard />
