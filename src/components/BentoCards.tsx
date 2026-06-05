@@ -4,8 +4,8 @@ import { Terminal, Briefcase, Car, Plane, Gamepad2, ChefHat, TrendingUp } from '
 import { motion } from 'framer-motion';
 
 export const HeroCard = () => (
-  <motion.div 
-    className="glass-card col-span-4" 
+  <motion.div
+    className="glass-card col-span-4"
     style={{ minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -15,14 +15,14 @@ export const HeroCard = () => (
       Hi, I'm <span style={{ color: 'var(--accent-neon)' }}>Anuraj.</span>
     </h1>
     <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', maxWidth: '800px' }}>
-      Software Engineer. Tech enthusiast. Confident, patient, and street-smart problem solver. 
+      Software Engineer. Tech enthusiast. Confident, patient, and problem solver.
       Welcome to my digital multiverse where engineering meets passion.
     </p>
   </motion.div>
 );
 
 export const ProfessionalCard = () => (
-  <motion.div 
+  <motion.div
     className="glass-card col-span-2 row-span-2"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export const ProfessionalCard = () => (
         View Portfolio <Briefcase size={16} />
       </a>
     </div>
-    <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Engineering &<br/>Development</h2>
+    <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Engineering &<br />Development</h2>
     <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
       Building scalable systems, crafting robust architectures, and optimizing performance. I turn complex problems into elegant solutions.
     </p>
@@ -48,7 +48,7 @@ export const ProfessionalCard = () => (
 );
 
 export const FinanceCard = () => (
-  <motion.div 
+  <motion.div
     className="glass-card col-span-2"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ export const FinanceCard = () => (
 );
 
 export const MachinesCard = () => (
-  <motion.div 
+  <motion.div
     className="glass-card col-span-2"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ export const MachinesCard = () => (
 );
 
 export const GamesCard = () => (
-  <motion.div 
+  <motion.div
     className="glass-card col-span-2"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ export const GamesCard = () => (
 );
 
 export const CookingCard = () => (
-  <motion.div 
+  <motion.div
     className="glass-card col-span-2"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
