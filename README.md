@@ -39,4 +39,4 @@ This project uses **GitHub Actions** for automated deployment.
 3. **Automated Deployment**:
    Once pushed to the `main` branch, the `.github/workflows/deploy.yml` workflow will automatically trigger. It builds the Vite app and deploys the `dist` folder directly to GitHub Pages.
 
-> **Note**: Your professional portfolio is hosted separately at `/portfolio`. This site acts as the top-level hub linking to it.
+> **Note**: Professional portfolio is hosted separately at `/portfolio`. This site acts as the top-level hub linking to it.
