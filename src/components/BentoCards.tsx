@@ -141,9 +141,12 @@ export const GamesCard = () => (
     <Gamepad2 size={28} color="var(--accent-neon)" style={{ marginBottom: '1rem' }} />
     <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Interactive Sandbox</h3>
     <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Sports, competitive gaming, and mini-games built from scratch.</p>
-    <div style={{ marginTop: 'auto' }}>
+    <div style={{ marginTop: 'auto', display: 'flex', gap: '1rem' }}>
       <Link to="/games/memory" style={{ display: 'inline-block', padding: '0.5rem 1rem', background: 'rgba(0,240,255,0.1)', color: 'var(--accent-neon)', borderRadius: '8px', fontWeight: 600 }}>
-        Play Memory Game
+        Memory
+      </Link>
+      <Link to="/games/mesh-guardian" style={{ display: 'inline-block', padding: '0.5rem 1rem', background: 'rgba(176,0,255,0.1)', color: 'var(--accent-purple)', borderRadius: '8px', fontWeight: 600 }}>
+        Mesh Guardian
       </Link>
     </div>
   </TiltCard>

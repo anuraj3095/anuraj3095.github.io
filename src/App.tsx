@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import MemoryGame from './pages/Games/MemoryGame';
 import BrainIndex from './pages/Brain/BrainIndex';
 import BrainPostLayout from './pages/Brain/BrainPostLayout';
+import MeshGuardian from './pages/Games/MeshGuardian';
 
 const Navbar = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/games/memory" element={<MemoryGame />} />
+          <Route path="/games/mesh-guardian" element={<MeshGuardian />} />
           <Route path="/brain" element={<BrainIndex />} />
           <Route path="/brain/:slug" element={<BrainPostLayout />} />
         </Routes>
