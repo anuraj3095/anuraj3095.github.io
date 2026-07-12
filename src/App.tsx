@@ -5,6 +5,7 @@ import MemoryGame from './pages/Games/MemoryGame';
 import BrainIndex from './pages/Brain/BrainIndex';
 import BrainPostLayout from './pages/Brain/BrainPostLayout';
 import MeshGuardian from './pages/Games/MeshGuardian';
+import { useVisitLogger } from './hooks/useVisitLogger';
 
 const Navbar = () => {
   const location = useLocation();
@@ -25,6 +26,8 @@ const Navbar = () => {
 };
 
 const App = () => {
+  useVisitLogger();
+
   return (
     <>
       <Navbar />
