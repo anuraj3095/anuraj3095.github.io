@@ -42,8 +42,8 @@ export const useVisitLogger = () => {
       return;
     }
 
-    const logVisit = async () => {
-      const path = location.pathname + location.search;
+    const logVisit = async (customPath?: string) => {
+      const path = customPath || (location.pathname + location.search);
       const referrer = document.referrer || 'direct';
       const userAgent = navigator.userAgent;
 
@@ -87,6 +87,7 @@ export const useVisitLogger = () => {
         await fetch(url, {
           method: 'POST',
           mode: 'no-cors', // Google Forms submissions are cross-origin
+          keepalive: true, // Allow request to complete even if tab/page is unloading
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
@@ -97,6 +98,29 @@ export const useVisitLogger = () => {
       }
     };
 
+    // Log the current route navigation
     logVisit();
+
+    // Catch clicks on external links (like Portfolio)
+    const handleOutboundClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (target && target.href) {
+        try {
+          const url = new URL(target.href);
+          // If destination origin is different, it is an outbound click
+          if (url.origin !== window.location.origin) {
+            logVisit(`outbound:${target.href}`);
+          }
+        } catch (err) {
+          // Invalid URL, skip
+        }
+      }
+    };
+
+    document.addEventListener('click', handleOutboundClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutboundClick);
+    };
   }, [location.pathname, location.search]);
 };
