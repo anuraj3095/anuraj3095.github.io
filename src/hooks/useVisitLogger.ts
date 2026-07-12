@@ -1,6 +1,25 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+const getCachedLocation = async (): Promise<string> => {
+  const cached = sessionStorage.getItem('visitor_location');
+  if (cached) return cached;
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    if (res.ok) {
+      const data = await res.json();
+      const locationStr = `${data.city || ''}, ${data.region || ''}, ${data.country_name || ''} (${data.ip || ''})`
+        .replace(/^,\s*|,\s*$/, '') // Clean up any leading/trailing commas
+        .trim();
+      sessionStorage.setItem('visitor_location', locationStr || 'Unknown');
+      return locationStr || 'Unknown';
+    }
+  } catch (e) {
+    // Fail silently, will retry on next page navigation if sessionStorage isn't set
+  }
+  return 'Unknown';
+};
+
 export const useVisitLogger = () => {
   const location = useLocation();
 
@@ -9,8 +28,10 @@ export const useVisitLogger = () => {
     const ENTRY_PATH = import.meta.env.VITE_GOOGLE_FORM_ENTRY_PATH;
     const ENTRY_REFERRER = import.meta.env.VITE_GOOGLE_FORM_ENTRY_REFERRER;
     const ENTRY_USER_AGENT = import.meta.env.VITE_GOOGLE_FORM_ENTRY_USER_AGENT;
+    const ENTRY_LOCATION = import.meta.env.VITE_GOOGLE_FORM_ENTRY_LOCATION;
+    const ENTRY_TIMEZONE = import.meta.env.VITE_GOOGLE_FORM_ENTRY_TIMEZONE;
+    const ENTRY_CUSTOM_REF = import.meta.env.VITE_GOOGLE_FORM_ENTRY_CUSTOM_REF;
 
-    // Check if configuration is available
     if (!FORM_ID || !ENTRY_PATH || !ENTRY_REFERRER || !ENTRY_USER_AGENT) {
       if (import.meta.env.DEV) {
         console.warn(
@@ -25,16 +46,46 @@ export const useVisitLogger = () => {
       const referrer = document.referrer || 'direct';
       const userAgent = navigator.userAgent;
 
+      // Extract custom ref from URL parameters (e.g. ?ref=recruiter_john)
+      const urlParams = new URLSearchParams(location.search);
+      const urlRef = urlParams.get('ref');
+      if (urlRef) {
+        sessionStorage.setItem('visitor_ref', urlRef);
+      }
+      const customRef = urlRef || sessionStorage.getItem('visitor_ref') || 'none';
+
+      // Detect timezone
+      let timezone = 'Unknown';
+      try {
+        timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+      } catch (e) {
+        // Fallback
+      }
+
+      // Fetch cached location
+      const visitorLocation = await getCachedLocation();
+
       const formData = new URLSearchParams();
       formData.append(`entry.${ENTRY_PATH}`, path);
       formData.append(`entry.${ENTRY_REFERRER}`, referrer);
       formData.append(`entry.${ENTRY_USER_AGENT}`, userAgent);
 
+      // Append optional fields if they are defined in environment variables
+      if (ENTRY_LOCATION) {
+        formData.append(`entry.${ENTRY_LOCATION}`, visitorLocation);
+      }
+      if (ENTRY_TIMEZONE) {
+        formData.append(`entry.${ENTRY_TIMEZONE}`, timezone);
+      }
+      if (ENTRY_CUSTOM_REF) {
+        formData.append(`entry.${ENTRY_CUSTOM_REF}`, customRef);
+      }
+
       try {
         const url = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
         await fetch(url, {
           method: 'POST',
-          mode: 'no-cors', // Google Forms submissions are cross-origin, no-cors prevents CORS policy errors
+          mode: 'no-cors', // Google Forms submissions are cross-origin
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
