@@ -43,7 +43,8 @@ export const useVisitLogger = () => {
     }
 
     const logVisit = async (customPath?: string) => {
-      const path = customPath || (location.pathname + location.search);
+      const prefix = GOOGLE_FORM_CONFIG.sitePrefix ? `${GOOGLE_FORM_CONFIG.sitePrefix}:` : '';
+      const path = customPath || (prefix + location.pathname + location.search);
       const referrer = document.referrer || 'direct';
       const userAgent = navigator.userAgent;
 
