@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { GOOGLE_FORM_CONFIG } from '../config/analytics';
 
 const getCachedLocation = async (): Promise<string> => {
   const cached = sessionStorage.getItem('visitor_location');
@@ -24,13 +25,13 @@ export const useVisitLogger = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const FORM_ID = import.meta.env.VITE_GOOGLE_FORM_ID;
-    const ENTRY_PATH = import.meta.env.VITE_GOOGLE_FORM_ENTRY_PATH;
-    const ENTRY_REFERRER = import.meta.env.VITE_GOOGLE_FORM_ENTRY_REFERRER;
-    const ENTRY_USER_AGENT = import.meta.env.VITE_GOOGLE_FORM_ENTRY_USER_AGENT;
-    const ENTRY_LOCATION = import.meta.env.VITE_GOOGLE_FORM_ENTRY_LOCATION;
-    const ENTRY_TIMEZONE = import.meta.env.VITE_GOOGLE_FORM_ENTRY_TIMEZONE;
-    const ENTRY_CUSTOM_REF = import.meta.env.VITE_GOOGLE_FORM_ENTRY_CUSTOM_REF;
+    const FORM_ID = GOOGLE_FORM_CONFIG.formId;
+    const ENTRY_PATH = GOOGLE_FORM_CONFIG.entryPath;
+    const ENTRY_REFERRER = GOOGLE_FORM_CONFIG.entryReferrer;
+    const ENTRY_USER_AGENT = GOOGLE_FORM_CONFIG.entryUserAgent;
+    const ENTRY_LOCATION = GOOGLE_FORM_CONFIG.entryLocation;
+    const ENTRY_TIMEZONE = GOOGLE_FORM_CONFIG.entryTimezone;
+    const ENTRY_CUSTOM_REF = GOOGLE_FORM_CONFIG.entryCustomRef;
 
     if (!FORM_ID || !ENTRY_PATH || !ENTRY_REFERRER || !ENTRY_USER_AGENT) {
       if (import.meta.env.DEV) {
