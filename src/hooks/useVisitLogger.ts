@@ -21,6 +21,23 @@ const getCachedLocation = async (): Promise<string> => {
   return 'Unknown';
 };
 
+const getSessionId = (): string => {
+  let sessionId = sessionStorage.getItem('visitor_session_id');
+  if (!sessionId) {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth() + 1;
+    const d = now.getDate();
+    const h = now.getHours();
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    const rand = Math.random().toString(36).substring(2, 6);
+    sessionId = `sess_y=${y},m=${m},d=${d}_h=${h},min=${min},s=${s}_${rand}`;
+    sessionStorage.setItem('visitor_session_id', sessionId);
+  }
+  return sessionId;
+};
+
 export const useVisitLogger = () => {
   const location = useLocation();
 
@@ -32,6 +49,7 @@ export const useVisitLogger = () => {
     const ENTRY_LOCATION = GOOGLE_FORM_CONFIG.entryLocation;
     const ENTRY_TIMEZONE = GOOGLE_FORM_CONFIG.entryTimezone;
     const ENTRY_CUSTOM_REF = GOOGLE_FORM_CONFIG.entryCustomRef;
+    const ENTRY_SESSION_ID = GOOGLE_FORM_CONFIG.entrySessionId;
 
     if (!FORM_ID || !ENTRY_PATH || !ENTRY_REFERRER || !ENTRY_USER_AGENT) {
       if (import.meta.env.DEV) {
@@ -47,6 +65,7 @@ export const useVisitLogger = () => {
       const path = customPath || (prefix + location.pathname + location.search);
       const referrer = document.referrer || 'direct';
       const userAgent = navigator.userAgent;
+      const sessionId = getSessionId();
 
       // Extract custom ref from URL parameters (e.g. ?ref=recruiter_john)
       const urlParams = new URLSearchParams(location.search);
@@ -54,7 +73,13 @@ export const useVisitLogger = () => {
       if (urlRef) {
         sessionStorage.setItem('visitor_ref', urlRef);
       }
-      const customRef = urlRef || sessionStorage.getItem('visitor_ref') || 'none';
+      let customRef = urlRef || sessionStorage.getItem('visitor_ref') || 'none';
+
+      // Fallback: If no dedicated session ID entry in Google Forms is set,
+      // append the session ID to the customRef field so it's always tracked.
+      if (!ENTRY_SESSION_ID) {
+        customRef = `${customRef} (session:${sessionId})`;
+      }
 
       // Detect timezone
       let timezone = 'Unknown';
@@ -81,6 +106,9 @@ export const useVisitLogger = () => {
       }
       if (ENTRY_CUSTOM_REF) {
         formData.append(`entry.${ENTRY_CUSTOM_REF}`, customRef);
+      }
+      if (ENTRY_SESSION_ID) {
+        formData.append(`entry.${ENTRY_SESSION_ID}`, sessionId);
       }
 
       try {

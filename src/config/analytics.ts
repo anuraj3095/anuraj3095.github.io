@@ -6,5 +6,6 @@ export const GOOGLE_FORM_CONFIG = {
   entryLocation: import.meta.env.VITE_GOOGLE_FORM_ENTRY_LOCATION || '1183375953',
   entryTimezone: import.meta.env.VITE_GOOGLE_FORM_ENTRY_TIMEZONE || '7234940',
   entryCustomRef: import.meta.env.VITE_GOOGLE_FORM_ENTRY_CUSTOM_REF || '2016761849',
+  entrySessionId: import.meta.env.VITE_GOOGLE_FORM_ENTRY_SESSION_ID || '2032523572',
   sitePrefix: 'main',
 };
